@@ -95,11 +95,16 @@
 
 
 - (void)fl_showFeatureView:(NSArray *)imageArray{
+    // 先判断
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"FLFeatureManagerKey"]) {
+        return;
+    }
     if (!self.featureView) {
         self.featureView  = [[FLFeatureView alloc] initPagesViewWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height) Images:imageArray];
         self.lastFeatureView = self.featureView.lastFeatureView;
         self.lastFeatureViewSwipToDismiss = YES;
-        
+        // 保存起来
+        [[NSUserDefaults standardUserDefaults] setObject:@"FLFeatureManagerKey" forKey:@"FLFeatureManagerKey"];
     }
     [self.rootWindow addSubview:self.featureView];
     
